@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        requestedOrientation=android.content.pm.ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
         //Get the buttons
         mButtonSubmit = findViewById(R.id.submitButton)
         mButtonSubmit!!.setOnClickListener(this)
@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val displayCameraThumbnail = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == RESULT_OK) {
+            picTaken=true
             mPicView = findViewById<View>(R.id.profilePic) as ImageView
             var thumbnailImage: Bitmap? = null
             if (Build.VERSION.SDK_INT >= 33) {
@@ -155,6 +156,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         //Restore stuff
         mPicView = findViewById<View>(R.id.profilePic) as ImageView
         val thumbnailImage = BitmapFactory.decodeFile(savedInstanceState.getString("filepath"))
+        filePathString=savedInstanceState.getString("filepath")
         if (thumbnailImage != null) {
             picTaken=true
             mPicView!!.setImageBitmap(thumbnailImage)
